@@ -1,5 +1,3 @@
-version: "3.9"
-
 x-airflow-common: &airflow-common
   image: ecommerce-airflow
   build:
@@ -57,17 +55,17 @@ services:
       timeout: 10s
       retries: 10
 
-  kafka-jmx-exporter:
-    image: bitnami/jmx-exporter:0.20.0
-    container_name: kafka-jmx-exporter
+  kafka-exporter:
+    image: danielqsj/kafka-exporter:latest
+    container_name: kafka-exporter
     ports:
-      - "5556:5556"
-    volumes:
-      - ./monitoring/jmx_exporter_kafka.yml:/opt/bitnami/jmx-exporter/config.yml
-    command: ["5556", "/opt/bitnami/jmx-exporter/config.yml"]
+      - "9308:9308"
+    command:
+      - "--kafka.server=kafka:29092"
     depends_on:
       kafka:
         condition: service_healthy
+    restart: on-failure
 
   # ── Producer ─────────────────────────────────────────────────────────────
 
@@ -158,7 +156,7 @@ services:
     container_name: airflow-webserver
     command: webserver
     ports:
-      - "8080:8080"
+      - "8081:8080"
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
       interval: 30s
