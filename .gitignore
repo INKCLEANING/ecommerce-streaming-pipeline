@@ -12,3 +12,4 @@ dist/
 build/
 *.log
 plan.md
+project_deep_dive.md
