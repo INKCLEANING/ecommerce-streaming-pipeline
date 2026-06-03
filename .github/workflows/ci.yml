@@ -50,5 +50,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Create stub .env for validation
+        run: cp .env.example .env
+
       - name: Check docker-compose config
         run: docker compose config --quiet
