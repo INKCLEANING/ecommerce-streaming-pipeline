@@ -1,0 +1,13 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+great_expectations/uncommitted/
+great_expectations/checkpoints/
+*.egg-info/
+.venv/
+venv/
+dist/
+build/
+*.log
