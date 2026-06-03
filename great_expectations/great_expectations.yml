@@ -1,0 +1,64 @@
+config_version: 3.0
+
+datasources:
+  s3_datasource:
+    class_name: Datasource
+    module_name: great_expectations.datasource
+    execution_engine:
+      class_name: PandasExecutionEngine
+      module_name: great_expectations.execution_engine
+    data_connectors:
+      s3_connector:
+        class_name: InferredAssetS3DataConnector
+        module_name: great_expectations.datasource.data_connector
+        bucket: ${S3_BUCKET}
+        prefix: ""
+        default_regex:
+          pattern: (.+)/year=(.+)/month=(.+)/day=(.+)/hour=(.+)/(.+)\\.json
+          group_names:
+            - topic
+            - year
+            - month
+            - day
+            - hour
+            - filename
+
+stores:
+  expectations_store:
+    class_name: ExpectationsStore
+    store_backend:
+      class_name: TupleFilesystemStoreBackend
+      base_directory: /opt/airflow/great_expectations/expectations/
+
+  validations_store:
+    class_name: ValidationsStore
+    store_backend:
+      class_name: TupleFilesystemStoreBackend
+      base_directory: /opt/airflow/great_expectations/validations/
+
+  evaluation_parameter_store:
+    class_name: EvaluationParameterStore
+
+  checkpoint_store:
+    class_name: CheckpointStore
+    store_backend:
+      class_name: TupleFilesystemStoreBackend
+      base_directory: /opt/airflow/great_expectations/checkpoints/
+
+expectations_store_name: expectations_store
+validations_store_name: validations_store
+evaluation_parameter_store_name: evaluation_parameter_store
+checkpoint_store_name: checkpoint_store
+
+data_docs_sites:
+  s3_site:
+    class_name: SiteBuilder
+    store_backend:
+      class_name: TupleS3StoreBackend
+      bucket: ${S3_BUCKET}
+      prefix: ge-data-docs/
+    site_index_builder:
+      class_name: DefaultSiteIndexBuilder
+
+anonymous_usage_statistics:
+  enabled: false

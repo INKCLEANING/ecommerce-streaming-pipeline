@@ -1,0 +1,30 @@
+hostPort: kafka:9101
+lowercaseOutputName: true
+lowercaseOutputLabelNames: true
+
+rules:
+  - pattern: kafka.server<type=BrokerTopicMetrics, name=MessagesInPerSec><>Count
+    name: kafka_server_brokertopicmetrics_messagesinpersec_total
+    type: COUNTER
+
+  - pattern: kafka.server<type=BrokerTopicMetrics, name=BytesInPerSec><>Count
+    name: kafka_server_brokertopicmetrics_bytesinpersec_total
+    type: COUNTER
+
+  - pattern: kafka.server<type=BrokerTopicMetrics, name=BytesOutPerSec><>Count
+    name: kafka_server_brokertopicmetrics_bytesoutpersec_total
+    type: COUNTER
+
+  - pattern: kafka.network<type=RequestMetrics, name=RequestsPerSec, request=Produce><>Count
+    name: kafka_network_requestmetrics_produce_total
+    type: COUNTER
+
+  - pattern: kafka.consumer<type=consumer-fetch-manager-metrics, client-id=(.+)><>records-lag-max
+    name: kafka_consumer_records_lag_max
+    labels:
+      client_id: "$1"
+    type: GAUGE
+
+  - pattern: kafka.log<type=LogFlushStats, name=LogFlushRateAndTimeMs><>Count
+    name: kafka_log_flush_total
+    type: COUNTER
