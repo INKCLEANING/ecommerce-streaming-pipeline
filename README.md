@@ -78,7 +78,7 @@ A production-style real-time data pipeline that ingests synthetic e-commerce eve
 | Tool | Link | Data |
 |---|---|---|
 | Looker Studio | [View Dashboard](https://datastudio.google.com/reporting/2ff1aadd-6609-48dd-8ce7-0f90d21822aa) | Order volume, product performance, customer behavior |
-| Tableau Public | *coming soon* | Daily CSV export from Athena |
+| Tableau Public | [View Dashboard](https://public.tableau.com/views/E-CommerceStreamingPipeline/CustomerBehavior) | Sales overview, product performance, customer behavior |
 | Grafana | http://localhost:3000 | Real-time Kafka + pipeline metrics |
 
 ---
